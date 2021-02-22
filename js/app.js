@@ -11,15 +11,18 @@ let rightImageIndex;
 let maxClicks = 25;
 let userClicks = 0;
 
+let productShown = [];
+
 
 
 
 function MallProduct(pName, source,) {
   this.pName = pName;
   this.source = source;
-  this.tShown = 0;
+  this.shown = 0;
   this.votes = 0;
   MallProduct.products.push(this);
+
 }
 
 MallProduct.products = [];
@@ -71,8 +74,13 @@ function renderThreeImages() {
   } while ((leftImageIndex === centerImageIndex) || (centerImageIndex === rightImageIndex) || (leftImageIndex === rightImageIndex))
 
   leftImageElement.src = MallProduct.products[leftImageIndex].source;
+  MallProduct.products[leftImageIndex].shown++;
+
   centerImageElement.src = MallProduct.products[centerImageIndex].source;
+  MallProduct.products[centerImageIndex].shown++;
+
   rightImageElement.src = MallProduct.products[rightImageIndex].source;
+  MallProduct.products[centerImageIndex].shown++;
 }
 
 renderThreeImages();
@@ -103,7 +111,7 @@ function handleUserClick(event) {
     for (let i = 0; i < MallProduct.products.length; i++) {
       productResult = document.createElement('li');
       list.appendChild(productResult);
-      productResult.textContent = MallProduct.products[i].pName + " " + MallProduct.products[i].votes;
+      productResult.textContent = `${MallProduct.products[i].pName} products, ${MallProduct.products[i].votes} vootes, ${MallProduct.products[i].shown} shown`;
     }
 
     leftImageElement.removeEventListener('click', handleUserClick);
@@ -112,3 +120,4 @@ function handleUserClick(event) {
 
   }
 }
+
