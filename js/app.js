@@ -13,6 +13,10 @@ let userClicks = 0;
 
 let productShown = [];
 
+let productNames = [];
+
+let productVotes = [];
+
 
 
 
@@ -22,6 +26,7 @@ function MallProduct(pName, source,) {
   this.shown = 0;
   this.votes = 0;
   MallProduct.products.push(this);
+  productNames.push(pName)
 
 }
 
@@ -111,13 +116,47 @@ function handleUserClick(event) {
     for (let i = 0; i < MallProduct.products.length; i++) {
       productResult = document.createElement('li');
       list.appendChild(productResult);
-      productResult.textContent = `${MallProduct.products[i].pName} products, ${MallProduct.products[i].votes} vootes, ${MallProduct.products[i].shown} shown`;
+      productResult.textContent = `${MallProduct.products[i].pName} products, ${MallProduct.products[i].votes} votes, ${MallProduct.products[i].shown} shown`;
     }
 
     leftImageElement.removeEventListener('click', handleUserClick);
     centerImageElement.removeEventListener('click', handleUserClick);
     rightImageElement.removeEventListener('click', handleUserClick);
 
+    for (let i = 0; i < MallProduct.products.length; i++) {
+      productVotes.push(MallProduct.products[i].votes);
+      productShown.push(MallProduct.products[i].shown);
+    }
+    viewChart();
   }
 }
 
+
+
+function viewChart() {
+  let ctx = document.getElementById('myChart').getContext('2d');
+  let chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+      labels: productNames,
+      datasets: [{
+        label: productNames,
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: productVotes
+      },
+      {
+        label: productNames,
+        backgroundColor: 'red',
+        borderColor: 'red',
+        data: productShown
+      }]
+    },
+
+    // Configuration options go here
+    options: {}
+  });
+}
