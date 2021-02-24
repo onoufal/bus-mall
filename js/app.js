@@ -94,8 +94,10 @@ function renderThreeImages() {
   rightImageElement.src = MallProduct.products[rightImageIndex].source;
   MallProduct.products[centerImageIndex].shown++;
 
-  oldImages = [leftImageIndex, centerImageIndex, rightImageIndex]
-}
+
+ oldImages = [leftImageIndex, centerImageIndex, rightImageIndex]
+
+
 
 renderThreeImages();
 
@@ -154,13 +156,13 @@ function viewChart() {
     data: {
       labels: productNames,
       datasets: [{
-        label: productNames,
+        label: 'Votes',
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
         data: productVotes
       },
       {
-        label: productNames,
+        label: 'Shown',
         backgroundColor: 'red',
         borderColor: 'red',
         data: productShown
