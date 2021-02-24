@@ -30,13 +30,14 @@ function MallProduct(pName, source,) {
   MallProduct.products.push(this);
   productNames.push(pName)
 
-  // settingItem();
 }
 
 MallProduct.products = [];
 
 function setItems() {
-  let data = JSON.stringify(MallProduct.products)
+  let data = JSON.stringify(MallProduct.products);
+  localStorage.setItem('product', data)
+
 }
 
 new MallProduct('bag.jpg', 'images/bag.jpg');
@@ -61,9 +62,6 @@ new MallProduct('water-can.jpg', 'images/water-can.jpg');
 new MallProduct('wine-glass.jpg', 'images/wine-glass.jpg');
 
 
-
-
-
 function generateRandomIndex() {
   return Math.floor(Math.random() * MallProduct.products.length);
 }
@@ -72,19 +70,13 @@ function generateRandomIndex() {
 
 function getItems() {
   let srtringObject = localStorage.getItem('product')
-
   if (srtringObject) {
     MallProduct.products = JSON.parse(srtringObject)
-
   }
 }
 
 
-
-
 function renderThreeImages() {
-
-
 
   do {
     leftImageIndex = generateRandomIndex();
@@ -102,22 +94,15 @@ function renderThreeImages() {
   rightImageElement.src = MallProduct.products[rightImageIndex].source;
   MallProduct.products[centerImageIndex].shown++;
 
-
   oldImages = [leftImageIndex, centerImageIndex, rightImageIndex]
-
-
-
-
 }
 
 renderThreeImages();
 
 
-
 leftImageElement.addEventListener('click', handleUserClick);
 centerImageElement.addEventListener('click', handleUserClick);
 rightImageElement.addEventListener('click', handleUserClick);
-
 
 
 function handleUserClick(event) {
@@ -126,10 +111,13 @@ function handleUserClick(event) {
   if (userClicks < maxClicks) {
     if (event.target.id === 'left-image') {
       MallProduct.products[leftImageIndex].votes++
+      setItems()
     } else if (event.target.id === 'center-image') {
       MallProduct.products[centerImageIndex].votes++
+      setItems()
     } else {
       MallProduct.products[rightImageIndex].votes++
+      setItems()
     }
     renderThreeImages();
   } else {
@@ -149,36 +137,11 @@ function handleUserClick(event) {
       productVotes.push(MallProduct.products[i].votes);
       productShown.push(MallProduct.products[i].shown);
     }
-    setItems()
+
 
     viewChart();
   }
 }
-
-
-
-
-// function settingItem() {
-
-//   let data = JSON.stringify(productShown);
-
-//   localStorage.setItem('product shown', data);
-
-// }
-
-
-
-
-// function gettingItem() {
-//   let stringObject = localStorage.getItem('product shown');
-//   let normalObject = JSON.parse(stringObject);
-
-//   if (normalObject !== null) {
-//     productShown = normalObject;
-
-//   }
-// }
-
 
 
 function viewChart() {
@@ -210,4 +173,4 @@ function viewChart() {
 }
 
 
-gettingItem()
+getItems()
