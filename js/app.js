@@ -28,9 +28,17 @@ function MallProduct(pName, source,) {
   MallProduct.products.push(this);
   productNames.push(pName)
 
+  // settingItem();
 }
 
 MallProduct.products = [];
+
+
+
+
+
+
+
 
 
 new MallProduct('bag.jpg', 'images/bag.jpg');
@@ -62,20 +70,18 @@ function generateRandomIndex() {
   return Math.floor(Math.random() * MallProduct.products.length);
 }
 
-// console.log(generateRandomIndex());
-
-// console.log(MallProduct.products);
 
 
 
 function renderThreeImages() {
+
   leftImageIndex = generateRandomIndex();
-  // centerImageIndex = generateRandomIndex()
-  // rightImageIndex = generateRandomIndex();
 
   do {
+
     centerImageIndex = generateRandomIndex();
     rightImageIndex = generateRandomIndex();
+
   } while ((leftImageIndex === centerImageIndex) || (centerImageIndex === rightImageIndex) || (leftImageIndex === rightImageIndex))
 
   leftImageElement.src = MallProduct.products[leftImageIndex].source;
@@ -127,7 +133,33 @@ function handleUserClick(event) {
       productVotes.push(MallProduct.products[i].votes);
       productShown.push(MallProduct.products[i].shown);
     }
+    settingItem()
+
     viewChart();
+  }
+}
+
+
+
+
+function settingItem() {
+
+  let data = JSON.stringify(productShown);
+
+  localStorage.setItem('product shown', data);
+
+}
+
+
+
+
+function gettingItem() {
+  let stringObject = localStorage.getItem('product shown');
+  let normalObject = JSON.parse(stringObject);
+
+  if (normalObject !== null) {
+    productShown = normalObject;
+
   }
 }
 
@@ -160,3 +192,6 @@ function viewChart() {
     options: {}
   });
 }
+
+
+gettingItem()
