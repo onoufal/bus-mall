@@ -34,6 +34,11 @@ function MallProduct(pName, source,) {
 
 MallProduct.products = [];
 
+function setItems() {
+  let data = JSON.stringify(MallProduct.products);
+  localStorage.setItem('product', data)
+
+}
 
 new MallProduct('bag.jpg', 'images/bag.jpg');
 new MallProduct('banana.jpg', 'images/banana.jpg');
@@ -57,16 +62,18 @@ new MallProduct('water-can.jpg', 'images/water-can.jpg');
 new MallProduct('wine-glass.jpg', 'images/wine-glass.jpg');
 
 
-
-
 function generateRandomIndex() {
   return Math.floor(Math.random() * MallProduct.products.length);
 }
 
-// console.log(generateRandomIndex());
 
-// console.log(MallProduct.products);
 
+function getItems() {
+  let srtringObject = localStorage.getItem('product')
+  if (srtringObject) {
+    MallProduct.products = JSON.parse(srtringObject)
+  }
+}
 
 
 function renderThreeImages() {
@@ -88,19 +95,16 @@ function renderThreeImages() {
   MallProduct.products[centerImageIndex].shown++;
 
 
-  oldImages = [leftImageIndex, centerImageIndex, rightImageIndex]
+ oldImages = [leftImageIndex, centerImageIndex, rightImageIndex]
 
 
-}
 
 renderThreeImages();
-
 
 
 leftImageElement.addEventListener('click', handleUserClick);
 centerImageElement.addEventListener('click', handleUserClick);
 rightImageElement.addEventListener('click', handleUserClick);
-
 
 
 function handleUserClick(event) {
@@ -109,10 +113,13 @@ function handleUserClick(event) {
   if (userClicks < maxClicks) {
     if (event.target.id === 'left-image') {
       MallProduct.products[leftImageIndex].votes++
+      setItems()
     } else if (event.target.id === 'center-image') {
       MallProduct.products[centerImageIndex].votes++
+      setItems()
     } else {
       MallProduct.products[rightImageIndex].votes++
+      setItems()
     }
     renderThreeImages();
   } else {
@@ -132,10 +139,11 @@ function handleUserClick(event) {
       productVotes.push(MallProduct.products[i].votes);
       productShown.push(MallProduct.products[i].shown);
     }
+
+
     viewChart();
   }
 }
-
 
 
 function viewChart() {
@@ -165,3 +173,6 @@ function viewChart() {
     options: {}
   });
 }
+
+
+getItems()
