@@ -17,6 +17,8 @@ let productNames = [];
 
 let productVotes = [];
 
+let oldImages = []
+
 
 
 
@@ -57,7 +59,6 @@ new MallProduct('wine-glass.jpg', 'images/wine-glass.jpg');
 
 
 
-
 function generateRandomIndex() {
   return Math.floor(Math.random() * MallProduct.products.length);
 }
@@ -69,14 +70,13 @@ function generateRandomIndex() {
 
 
 function renderThreeImages() {
-  leftImageIndex = generateRandomIndex();
-  // centerImageIndex = generateRandomIndex()
-  // rightImageIndex = generateRandomIndex();
 
   do {
+    leftImageIndex = generateRandomIndex();
     centerImageIndex = generateRandomIndex();
     rightImageIndex = generateRandomIndex();
-  } while ((leftImageIndex === centerImageIndex) || (centerImageIndex === rightImageIndex) || (leftImageIndex === rightImageIndex))
+
+  } while ((leftImageIndex === centerImageIndex) || (centerImageIndex === rightImageIndex) || (leftImageIndex === rightImageIndex) || oldImages.includes(leftImageIndex) || oldImages.includes(centerImageIndex) || oldImages.includes(rightImageIndex))
 
   leftImageElement.src = MallProduct.products[leftImageIndex].source;
   MallProduct.products[leftImageIndex].shown++;
@@ -86,6 +86,11 @@ function renderThreeImages() {
 
   rightImageElement.src = MallProduct.products[rightImageIndex].source;
   MallProduct.products[centerImageIndex].shown++;
+
+
+  oldImages = [leftImageIndex, centerImageIndex, rightImageIndex]
+
+
 }
 
 renderThreeImages();
