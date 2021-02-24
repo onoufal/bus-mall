@@ -17,6 +17,8 @@ let productNames = [];
 
 let productVotes = [];
 
+let oldImages = []
+
 
 
 
@@ -33,13 +35,9 @@ function MallProduct(pName, source,) {
 
 MallProduct.products = [];
 
-
-
-
-
-
-
-
+function setItems() {
+  let data = JSON.stringify(MallProduct.products)
+}
 
 new MallProduct('bag.jpg', 'images/bag.jpg');
 new MallProduct('banana.jpg', 'images/banana.jpg');
@@ -72,17 +70,28 @@ function generateRandomIndex() {
 
 
 
+function getItems() {
+  let srtringObject = localStorage.getItem('product')
+
+  if (srtringObject) {
+    MallProduct.products = JSON.parse(srtringObject)
+
+  }
+}
+
+
+
 
 function renderThreeImages() {
 
-  leftImageIndex = generateRandomIndex();
+
 
   do {
-
+    leftImageIndex = generateRandomIndex();
     centerImageIndex = generateRandomIndex();
     rightImageIndex = generateRandomIndex();
 
-  } while ((leftImageIndex === centerImageIndex) || (centerImageIndex === rightImageIndex) || (leftImageIndex === rightImageIndex))
+  } while ((leftImageIndex === centerImageIndex) || (centerImageIndex === rightImageIndex) || (leftImageIndex === rightImageIndex) || oldImages.includes(leftImageIndex) || oldImages.includes(centerImageIndex) || oldImages.includes(rightImageIndex))
 
   leftImageElement.src = MallProduct.products[leftImageIndex].source;
   MallProduct.products[leftImageIndex].shown++;
@@ -92,6 +101,13 @@ function renderThreeImages() {
 
   rightImageElement.src = MallProduct.products[rightImageIndex].source;
   MallProduct.products[centerImageIndex].shown++;
+
+
+  oldImages = [leftImageIndex, centerImageIndex, rightImageIndex]
+
+
+
+
 }
 
 renderThreeImages();
@@ -133,7 +149,7 @@ function handleUserClick(event) {
       productVotes.push(MallProduct.products[i].votes);
       productShown.push(MallProduct.products[i].shown);
     }
-    settingItem()
+    setItems()
 
     viewChart();
   }
@@ -142,26 +158,26 @@ function handleUserClick(event) {
 
 
 
-function settingItem() {
+// function settingItem() {
 
-  let data = JSON.stringify(productShown);
+//   let data = JSON.stringify(productShown);
 
-  localStorage.setItem('product shown', data);
+//   localStorage.setItem('product shown', data);
 
-}
-
-
+// }
 
 
-function gettingItem() {
-  let stringObject = localStorage.getItem('product shown');
-  let normalObject = JSON.parse(stringObject);
 
-  if (normalObject !== null) {
-    productShown = normalObject;
 
-  }
-}
+// function gettingItem() {
+//   let stringObject = localStorage.getItem('product shown');
+//   let normalObject = JSON.parse(stringObject);
+
+//   if (normalObject !== null) {
+//     productShown = normalObject;
+
+//   }
+// }
 
 
 
