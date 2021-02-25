@@ -21,7 +21,6 @@ let oldImages = []
 
 
 
-
 function MallProduct(pName, source,) {
   this.pName = pName;
   this.source = source;
@@ -61,11 +60,9 @@ new MallProduct('usb.gif', 'images/usb.gif');
 new MallProduct('water-can.jpg', 'images/water-can.jpg');
 new MallProduct('wine-glass.jpg', 'images/wine-glass.jpg');
 
-
 function generateRandomIndex() {
   return Math.floor(Math.random() * MallProduct.products.length);
 }
-
 
 
 function getItems() {
@@ -74,7 +71,6 @@ function getItems() {
     MallProduct.products = JSON.parse(srtringObject)
   }
 }
-
 
 function renderThreeImages() {
 
@@ -94,18 +90,14 @@ function renderThreeImages() {
   rightImageElement.src = MallProduct.products[rightImageIndex].source;
   MallProduct.products[centerImageIndex].shown++;
 
-
- oldImages = [leftImageIndex, centerImageIndex, rightImageIndex]
-
-
+  oldImages = [leftImageIndex, centerImageIndex, rightImageIndex]
+}
 
 renderThreeImages();
-
 
 leftImageElement.addEventListener('click', handleUserClick);
 centerImageElement.addEventListener('click', handleUserClick);
 rightImageElement.addEventListener('click', handleUserClick);
-
 
 function handleUserClick(event) {
   userClicks++;
@@ -140,11 +132,9 @@ function handleUserClick(event) {
       productShown.push(MallProduct.products[i].shown);
     }
 
-
     viewChart();
   }
 }
-
 
 function viewChart() {
   let ctx = document.getElementById('myChart').getContext('2d');
@@ -156,13 +146,13 @@ function viewChart() {
     data: {
       labels: productNames,
       datasets: [{
-        label: 'Votes',
+        label: productNames,
         backgroundColor: 'rgb(255, 99, 132)',
         borderColor: 'rgb(255, 99, 132)',
         data: productVotes
       },
       {
-        label: 'Shown',
+        label: productNames,
         backgroundColor: 'red',
         borderColor: 'red',
         data: productShown
