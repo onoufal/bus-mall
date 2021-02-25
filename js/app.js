@@ -171,6 +171,6 @@ function viewChart() {
     options: {}
   });
 }
-
+// calling the  function
 
 getItems()
